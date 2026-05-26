@@ -1,0 +1,854 @@
+<!doctype html>
+<html lang="id" class="h-full w-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asesmen Akhir Sekolah</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Literata:wght@500;700;800&family=Nunito:wght@400;600;700;800;900&display=swap');
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+    }
+
+    body {
+      font-family: "Nunito", sans-serif;
+      overflow: hidden;
+    }
+
+    .math-font {
+      font-family: "Literata", serif;
+    }
+
+    .fade-in {
+      animation: fadeIn 1.2s ease both;
+    }
+
+    .rise-in {
+      animation: riseIn 0.75s ease both;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; filter: blur(8px); }
+      to { opacity: 1; filter: blur(0); }
+    }
+
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .leaf-pattern {
+      background-image:
+        radial-gradient(circle at 12% 18%, rgba(255,255,255,0.18) 0 2px, transparent 3px),
+        radial-gradient(circle at 76% 22%, rgba(255,255,255,0.14) 0 3px, transparent 4px),
+        radial-gradient(circle at 30% 78%, rgba(255,255,255,0.12) 0 4px, transparent 5px),
+        linear-gradient(135deg, rgba(255,255,255,0.12), transparent 42%);
+      background-size: 92px 92px, 140px 140px, 180px 180px, 100% 100%;
+    }
+
+    .glass {
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .focus-ring:focus-visible {
+      outline: 4px solid rgba(250, 204, 21, 0.75);
+      outline-offset: 3px;
+    }
+
+    .option-card {
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .option-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .question-nav-btn {
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .question-nav-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .katex {
+      font-size: 1.04em;
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(255,255,255,.45);
+      border-top-color: white;
+      border-radius: 999px;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full w-full">
+  <div id="appRoot" class="h-full w-full overflow-auto bg-[#0B6B3A] text-[#102318]">
+   <header class="sr-only">
+    <h1>Asesmen Akhir Sekolah</h1>
+   </header>
+   <main class="h-full w-full"><!-- Cover -->
+    <section id="coverPage" class="h-full w-full leaf-pattern flex flex-col items-center justify-center px-5 py-8 text-center text-white fade-in">
+     <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(circle at top left, rgba(250,204,21,.28), transparent 34%), radial-gradient(circle at bottom right, rgba(16,185,129,.36), transparent 40%);"></div>
+     <div class="relative w-full max-w-5xl mx-auto">
+      <div class="inline-flex items-center gap-3 rounded-full border border-white/25 bg-white/15 px-5 py-2 text-sm font-extrabold tracking-[0.22em] uppercase glass"><span class="h-2.5 w-2.5 rounded-full bg-[#FACC15]"></span> Tahun Pelajaran 2026
+      </div>
+      <div class="mt-8 rounded-[2rem] border border-white/20 bg-white/12 p-6 sm:p-10 shadow-2xl glass rise-in">
+       <p id="coverTitle" class="math-font text-2xl sm:text-4xl lg:text-5xl font-extrabold leading-tight">ASESMEN SUMATIF AKHIR SEKOLAH | KELAS XI | SMK NEGERI 1 MUNTOK | MATA PELAJARAN “MATEMATIKA TINGKAT LANJUT”</p>
+       <div class="mx-auto mt-7 h-1.5 w-36 rounded-full bg-[#FACC15]"></div>
+       <p class="mt-6 text-base sm:text-lg font-bold text-emerald-50">Bacalah setiap stimulan dengan teliti. Semua soal wajib dijawab sebelum dikirim.</p><button id="startBtn" class="focus-ring mt-9 inline-flex items-center justify-center rounded-full bg-[#FACC15] px-9 py-4 text-lg font-black text-[#102318] shadow-xl shadow-black/20 hover:bg-yellow-300 active:scale-95 transition"> MULAI ASESMEN </button>
+      </div>
+     </div>
+     <footer class="relative mt-7 text-sm sm:text-base font-bold text-emerald-50">
+      <p id="footerText">Sendy Gusdwiyansih, S.Pd. | SMK Negeri 1 Muntok | 2026</p>
+     </footer>
+    </section><!-- Biodata -->
+    <section id="bioPage" class="hidden min-h-full w-full bg-[#EAF7E8] px-4 py-5 sm:px-8">
+     <div class="mx-auto flex w-full max-w-6xl flex-col gap-5">
+      <div class="rounded-[1.75rem] bg-[#0B6B3A] p-5 sm:p-7 text-white shadow-xl leaf-pattern">
+       <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div>
+         <p class="text-sm font-extrabold uppercase tracking-[0.18em] text-[#FACC15]">Matematika Tingkat Lanjut</p>
+         <h2 id="appTitle" class="math-font mt-2 text-2xl sm:text-4xl font-extrabold">Aplikasi ASESMEN AKHIR SEKOLAH</h2>
+        </div>
+        <aside class="rounded-2xl bg-white/15 px-5 py-4 glass border border-white/20" aria-label="Waktu saat ini">
+         <p id="dayText" class="text-sm font-bold text-emerald-100">Hari</p>
+         <p id="dateText" class="font-black">Tanggal</p>
+         <p id="clockText" class="text-2xl font-black text-[#FACC15]">00:00:00</p>
+        </aside>
+       </div>
+      </div>
+      <div class="grid gap-5 lg:grid-cols-[1fr_.75fr]">
+       <form id="bioForm" class="rounded-[1.75rem] bg-white p-6 sm:p-8 shadow-xl border border-emerald-100">
+        <h2 class="math-font text-2xl sm:text-3xl font-extrabold text-[#102318]">Biodata Peserta</h2>
+        <p id="biodataNotice" class="mt-3 rounded-2xl border border-yellow-200 bg-yellow-50 px-4 py-3 font-extrabold text-yellow-900">Pastikan biodata sudah benar</p>
+        <div class="mt-6 grid gap-5">
+         <div><label for="studentName" class="block text-sm font-black uppercase tracking-wide text-emerald-900">Nama</label> <input id="studentName" name="studentName" type="text" required autocomplete="name" class="focus-ring mt-2 w-full rounded-2xl border-2 border-emerald-100 bg-emerald-50 px-4 py-4 text-lg font-bold outline-none focus:border-[#0B6B3A]" placeholder="Tuliskan nama lengkap">
+         </div>
+         <div><label for="studentClass" class="block text-sm font-black uppercase tracking-wide text-emerald-900">Kelas</label> <select id="studentClass" name="studentClass" required class="focus-ring mt-2 w-full rounded-2xl border-2 border-emerald-100 bg-emerald-50 px-4 py-4 text-lg font-bold outline-none focus:border-[#0B6B3A]"> <option value="">Pilih kelas</option> <option>XI-1 TEI</option> <option>XI-3 TEI</option> <option>XI-KI</option> <option>XI-DKV</option> <option>XI-1 TKJ</option> <option>XI-2 TKJ</option> </select>
+         </div>
+        </div>
+        <p id="bioError" class="mt-4 hidden rounded-xl bg-red-50 px-4 py-3 font-extrabold text-red-700"></p><button id="continueBtn" type="submit" class="focus-ring mt-7 w-full rounded-2xl bg-[#0B6B3A] px-6 py-4 text-lg font-black text-white shadow-lg hover:bg-emerald-800 active:scale-[0.99] transition"> Lanjut </button>
+       </form>
+       <aside class="rounded-[1.75rem] bg-[#102318] p-6 text-white shadow-xl">
+        <h2 class="math-font text-2xl font-extrabold text-[#FACC15]">Petunjuk Singkat</h2>
+        <ul class="mt-5 space-y-3 text-base font-bold text-emerald-50">
+         <li>• Jumlah soal: 20 pilihan ganda.</li>
+         <li>• Waktu pengerjaan: 90 menit.</li>
+         <li>• Navigasi soal dapat digunakan untuk melompati soal sulit.</li>
+         <li>• Semua soal wajib dijawab sebelum nilai ditampilkan.</li>
+        </ul>
+       </aside>
+      </div>
+     </div>
+    </section><!-- Assessment -->
+    <section id="assessmentPage" class="hidden min-h-full w-full bg-[#F4FBF1] px-3 py-4 sm:px-6">
+     <div class="mx-auto grid w-full max-w-7xl gap-4 lg:grid-cols-[280px_1fr]">
+      <aside class="rounded-[1.5rem] bg-[#102318] p-4 text-white shadow-xl lg:sticky lg:top-4 lg:self-start">
+       <h2 class="math-font text-xl font-extrabold text-[#FACC15]">Navigasi Soal</h2>
+       <div class="mt-4 grid grid-cols-5 gap-2" id="questionNav" aria-label="Navigasi soal"></div>
+       <div class="mt-5 rounded-2xl bg-white/10 p-4 border border-white/10">
+        <p class="text-xs font-black uppercase tracking-wide text-emerald-100">Tanggal</p>
+        <p id="assessmentDate" class="mt-1 font-extrabold"></p>
+        <p class="mt-4 text-xs font-black uppercase tracking-wide text-emerald-100">Sisa Waktu</p>
+        <p id="timerText" class="mt-1 text-3xl font-black text-[#FACC15]">90:00</p>
+        <p id="answeredCount" class="mt-4 text-sm font-bold text-emerald-100">0 dari 20 dijawab</p>
+       </div><button id="submitAssessmentBtn" class="focus-ring mt-4 w-full rounded-2xl bg-[#FACC15] px-4 py-3 font-black text-[#102318] hover:bg-yellow-300 active:scale-[0.98] transition"> Kirim Jawaban </button>
+      </aside>
+      <div class="rounded-[1.5rem] bg-white p-4 sm:p-7 shadow-xl border border-emerald-100">
+       <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+         <p class="text-sm font-black uppercase tracking-[0.14em] text-[#0B6B3A]">Soal <span id="questionNumber">1</span> dari 20</p>
+         <h2 id="questionTopic" class="math-font mt-1 text-2xl font-extrabold text-[#102318]">Topik</h2>
+        </div>
+        <div class="rounded-full bg-emerald-50 px-4 py-2 text-sm font-black text-emerald-900">
+         C<span id="questionLevel">3</span>
+        </div>
+       </div>
+       <article class="mt-5 rounded-[1.25rem] border border-emerald-100 bg-[#F4FBF1] p-4 sm:p-5">
+        <h3 class="font-black text-emerald-950">Stimulan</h3>
+        <div id="stimulusText" class="mt-2 leading-relaxed text-[#102318]"></div>
+       </article>
+       <article class="mt-5">
+        <h3 class="font-black text-emerald-950">Pertanyaan</h3>
+        <div id="questionText" class="mt-2 leading-relaxed text-[#102318]"></div>
+       </article>
+       <fieldset class="mt-5"><legend class="sr-only">Pilihan jawaban</legend>
+        <div id="optionsList" class="grid gap-3"></div>
+       </fieldset>
+       <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-between"><button id="prevBtn" class="focus-ring rounded-2xl border-2 border-emerald-200 bg-white px-6 py-3 font-black text-emerald-900 hover:bg-emerald-50 active:scale-[0.98] transition"> Sebelumnya </button> <button id="nextBtn" class="focus-ring rounded-2xl bg-[#0B6B3A] px-6 py-3 font-black text-white hover:bg-emerald-800 active:scale-[0.98] transition"> Berikutnya </button>
+       </div>
+       <div id="inlineMessage" class="mt-5 hidden rounded-2xl px-5 py-4 font-black"></div>
+      </div>
+     </div>
+    </section><!-- Result -->
+    <section id="resultPage" class="hidden min-h-full w-full bg-[#0B6B3A] leaf-pattern px-4 py-8 flex items-center justify-center">
+     <div class="w-full max-w-4xl rounded-[2rem] bg-white p-6 sm:p-10 text-center shadow-2xl rise-in">
+      <p class="text-sm font-black uppercase tracking-[0.18em] text-[#0B6B3A]">Hasil Asesmen</p>
+      <h2 class="math-font mt-2 text-3xl sm:text-5xl font-extrabold text-[#102318]">Nilai Siswa</h2>
+      <div class="mt-7 grid gap-4 text-left sm:grid-cols-3">
+       <div class="rounded-2xl bg-emerald-50 p-5">
+        <p class="text-xs font-black uppercase text-emerald-900">Nama</p>
+        <p id="resultName" class="mt-1 text-xl font-black text-[#102318]">-</p>
+       </div>
+       <div class="rounded-2xl bg-emerald-50 p-5">
+        <p class="text-xs font-black uppercase text-emerald-900">Kelas</p>
+        <p id="resultClass" class="mt-1 text-xl font-black text-[#102318]">-</p>
+       </div>
+       <div class="rounded-2xl bg-yellow-50 p-5">
+        <p class="text-xs font-black uppercase text-yellow-900">Nilai</p>
+        <p class="mt-1 text-xl font-black text-[#102318]"><span id="resultScore">0</span> / 100</p>
+       </div>
+      </div>
+      <div class="mt-6 rounded-[1.5rem] bg-[#102318] p-6 text-white">
+       <p class="text-sm font-black uppercase tracking-wide text-emerald-100">Keterangan Nilai</p>
+       <p id="resultRemark" class="math-font mt-2 text-4xl font-extrabold text-[#FACC15]">-</p>
+       <p id="saveStatus" class="mt-4 font-bold text-emerald-100">Menyimpan rekap nilai...</p>
+      </div>
+     </div>
+    </section><!-- Custom Confirmation -->
+    <section id="confirmOverlay" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/60 px-4">
+     <div class="w-full max-w-md rounded-[1.75rem] bg-white p-6 shadow-2xl text-center">
+      <h2 class="math-font text-2xl font-extrabold text-[#102318]">Konfirmasi</h2>
+      <p id="confirmText" class="mt-4 font-black text-[#102318]">APAKAH ANDA YAKIN MENYELESAIKAN ASESMEN INI ?!</p>
+      <div class="mt-6 grid grid-cols-2 gap-3"><button id="cancelSubmitBtn" class="focus-ring rounded-2xl border-2 border-emerald-200 px-5 py-3 font-black text-emerald-900 hover:bg-emerald-50">Tidak</button> <button id="confirmSubmitBtn" class="focus-ring rounded-2xl bg-[#0B6B3A] px-5 py-3 font-black text-white hover:bg-emerald-800"> <span id="confirmSubmitText">YA</span> </button>
+      </div>
+     </div>
+    </section>
+   </main>
+  </div>
+  <script>
+    const defaultConfig = {
+      background_color: "#0B6B3A",
+      surface_color: "#FFFFFF",
+      text_color: "#102318",
+      primary_action_color: "#FACC15",
+      secondary_action_color: "#0B6B3A",
+      font_family: "Nunito",
+      font_size: 16,
+      cover_title: "ASESMEN SUMATIF AKHIR SEKOLAH | KELAS XI | SMK NEGERI 1 MUNTOK | MATA PELAJARAN “MATEMATIKA TINGKAT LANJUT”",
+      start_button_text: "MULAI ASESMEN",
+      footer_text: "Sendy Gusdwiyansih, S.Pd. | SMK Negeri 1 Muntok | 2026",
+      app_title: "Aplikasi ASESMEN AKHIR SEKOLAH",
+      biodata_notice: "Pastikan biodata sudah benar",
+      continue_button_text: "Lanjut",
+      submit_button_text: "Kirim Jawaban",
+      incomplete_message: "SILAHKAN JAWAB SEMUA SOAL UNTUK MENYELESAIKAN ASESMEN INI",
+      confirm_message: "APAKAH ANDA YAKIN MENYELESAIKAN ASESMEN INI ?!"
+    };
+
+    let currentQuestion = 0;
+    let answers = {};
+    let studentData = { name: "", className: "" };
+    let assessmentStartedAt = null;
+    let timerInterval = null;
+    let remainingSeconds = 90 * 60;
+    let dataReady = false;
+    let isSaving = false;
+
+    const questions = [
+      {
+        topic: "Transformasi Geometri - Translasi",
+        level: 3,
+        stimulus: "Pada denah sekolah, titik \\(A(2, -1)\\) menunjukkan posisi awal robot kebersihan. Robot bergerak mengikuti vektor translasi \\(T = \\begin{pmatrix}4\\\\3\\end{pmatrix}\\).",
+        question: "Koordinat posisi akhir robot adalah ...",
+        options: ["\\((6, 2)\\)", "\\((-2, 2)\\)", "\\((6, -4)\\)", "\\((4, 3)\\)", "\\((2, 6)\\)"],
+        correct: 0
+      },
+      {
+        topic: "Transformasi Geometri - Translasi",
+        level: 4,
+        stimulus: "Sebuah logo pada desain grafis memiliki titik sudut \\(P(-3, 5)\\). Setelah digeser, titik tersebut menjadi \\(P'(4, 1)\\).",
+        question: "Vektor translasi yang digunakan adalah ...",
+        options: ["\\(\\begin{pmatrix}7\\\\-4\\end{pmatrix}\\)", "\\(\\begin{pmatrix}-7\\\\4\\end{pmatrix}\\)", "\\(\\begin{pmatrix}1\\\\6\\end{pmatrix}\\)", "\\(\\begin{pmatrix}4\\\\-3\\end{pmatrix}\\)", "\\(\\begin{pmatrix}-4\\\\7\\end{pmatrix}\\)"],
+        correct: 0
+      },
+      {
+        topic: "Transformasi Geometri - Translasi",
+        level: 5,
+        stimulus: "Pada layar CNC, garis \\(g\\) melalui titik \\(A(1,2)\\) dan \\(B(5,4)\\). Garis dipindahkan oleh translasi \\((-2,3)\\).",
+        question: "Persamaan garis bayangan yang tepat adalah ...",
+        options: ["\\(x-2y+9=0\\)", "\\(x-2y-9=0\\)", "\\(2x-y+9=0\\)", "\\(x+2y-9=0\\)", "\\(2x+y-9=0\\)"],
+        correct: 0
+      },
+      {
+        topic: "Transformasi Geometri - Refleksi",
+        level: 3,
+        stimulus: "Titik lampu taman berada di \\(L(6,-4)\\) pada bidang koordinat. Bayangan lampu terhadap sumbu-\\(x\\) diamati pada layar simulasi.",
+        question: "Koordinat bayangan titik \\(L\\) adalah ...",
+        options: ["\\((6,4)\\)", "\\((-6,-4)\\)", "\\((-6,4)\\)", "\\((4,6)\\)", "\\((-4,6)\\)"],
+        correct: 0
+      },
+      {
+        topic: "Transformasi Geometri - Refleksi",
+        level: 4,
+        stimulus: "Sebuah titik marka jalan \\(M(-2,7)\\) dicerminkan terhadap garis \\(y=x\\).",
+        question: "Koordinat bayangan titik tersebut adalah ...",
+        options: ["\\((7,-2)\\)", "\\((-7,2)\\)", "\\((2,-7)\\)", "\\((-2,-7)\\)", "\\((7,2)\\)"],
+        correct: 0
+      },
+      {
+        topic: "Transformasi Geometri - Refleksi",
+        level: 5,
+        stimulus: "Dalam desain motif kain, titik \\(Q(3,8)\\) dicerminkan terhadap garis \\(x=5\\).",
+        question: "Koordinat bayangan titik \\(Q\\) adalah ...",
+        options: ["\\((7,8)\\)", "\\((3,2)\\)", "\\((-3,8)\\)", "\\((8,7)\\)", "\\((5,8)\\)"],
+        correct: 0
+      },
+      {
+        topic: "Transformasi Geometri - Rotasi",
+        level: 4,
+        stimulus: "Pada peta digital, titik \\(R(4, -2)\\) diputar sebesar \\(90^\\circ\\) berlawanan arah jarum jam terhadap pusat \\(O(0,0)\\).",
+        question: "Koordinat bayangan titik \\(R\\) adalah ...",
+        options: ["\\((2,4)\\)", "\\((-2,-4)\\)", "\\((-4,2)\\)", "\\((4,2)\\)", "\\((2,-4)\\)"],
+        correct: 0
+      },
+      {
+        topic: "Transformasi Geometri - Rotasi",
+        level: 6,
+        stimulus: "Sebuah drone berada pada titik \\(D(5,1)\\). Drone diputar \\(180^\\circ\\) terhadap pusat \\(C(2,3)\\) pada simulasi lintasan.",
+        question: "Koordinat posisi drone setelah rotasi adalah ...",
+        options: ["\\((-1,5)\\)", "\\((1,-5)\\)", "\\((-5,-1)\\)", "\\((7,-1)\\)", "\\((-1,-5)\\)"],
+        correct: 0
+      },
+      {
+        topic: "Transformasi Geometri - Dilatasi",
+        level: 4,
+        stimulus: "Sebuah miniatur bangunan memiliki titik puncak \\(P(3, -2)\\). Miniatur diperbesar dengan dilatasi berpusat di \\(O(0,0)\\) dan faktor skala \\(k=3\\).",
+        question: "Koordinat bayangan titik puncak adalah ...",
+        options: ["\\((9,-6)\\)", "\\((6,-9)\\)", "\\((1,-\\frac{2}{3})\\)", "\\((-9,6)\\)", "\\((3,-6)\\)"],
+        correct: 0
+      },
+      {
+        topic: "Transformasi Geometri - Dilatasi",
+        level: 5,
+        stimulus: "Pada aplikasi desain, titik \\(A(2,4)\\) didilatasi terhadap pusat \\(C(1,1)\\) dengan faktor \\(k=2\\).",
+        question: "Koordinat bayangan titik \\(A\\) adalah ...",
+        options: ["\\((3,7)\\)", "\\((4,8)\\)", "\\((2,6)\\)", "\\((5,9)\\)", "\\((1,3)\\)"],
+        correct: 0
+      },
+      {
+        topic: "Fungsi Trigonometri",
+        level: 3,
+        stimulus: "Sebuah roda berputar sehingga tinggi sebuah titik terhadap tanah dimodelkan oleh \\(h(t)=2\\sin t+5\\), dengan \\(h\\) dalam meter.",
+        question: "Tinggi maksimum titik tersebut adalah ...",
+        options: ["\\(7\\) meter", "\\(5\\) meter", "\\(3\\) meter", "\\(2\\) meter", "\\(10\\) meter"],
+        correct: 0
+      },
+      {
+        topic: "Fungsi Trigonometri",
+        level: 4,
+        stimulus: "Gelombang arus listrik dinyatakan oleh \\(f(x)=3\\cos(2x)\\).",
+        question: "Amplitudo dan periode fungsi tersebut berturut-turut adalah ...",
+        options: ["\\(3\\) dan \\(\\pi\\)", "\\(2\\) dan \\(3\\pi\\)", "\\(3\\) dan \\(2\\pi\\)", "\\(6\\) dan \\(\\pi\\)", "\\(2\\) dan \\(\\pi\\)"],
+        correct: 0
+      },
+      {
+        topic: "Fungsi Trigonometri",
+        level: 4,
+        stimulus: "Suhu ruang laboratorium dimodelkan oleh \\(T(t)=4\\sin\\left(\\frac{\\pi}{6}t\\right)+24\\), dengan \\(t\\) dalam jam.",
+        question: "Periode perubahan suhu adalah ...",
+        options: ["\\(12\\) jam", "\\(6\\) jam", "\\(24\\) jam", "\\(4\\) jam", "\\(\\frac{\\pi}{6}\\) jam"],
+        correct: 0
+      },
+      {
+        topic: "Fungsi Trigonometri",
+        level: 5,
+        stimulus: "Ketinggian air laut dimodelkan oleh \\(H(t)=1{,}5\\cos\\left(\\frac{\\pi}{3}t\\right)+2\\).",
+        question: "Nilai minimum ketinggian air laut adalah ...",
+        options: ["\\(0{,}5\\)", "\\(1{,}5\\)", "\\(2\\)", "\\(3{,}5\\)", "\\(-0{,}5\\)"],
+        correct: 0
+      },
+      {
+        topic: "Fungsi Trigonometri",
+        level: 5,
+        stimulus: "Sebuah sinyal memiliki bentuk \\(y=a\\sin x+d\\). Dari grafik diketahui nilai maksimum \\(9\\) dan minimum \\(1\\).",
+        question: "Nilai \\(a\\) dan \\(d\\) yang mungkin adalah ...",
+        options: ["\\(a=4, d=5\\)", "\\(a=5, d=4\\)", "\\(a=8, d=1\\)", "\\(a=9, d=1\\)", "\\(a=1, d=8\\)"],
+        correct: 0
+      },
+      {
+        topic: "Fungsi Trigonometri",
+        level: 6,
+        stimulus: "Sebuah jembatan lengkung dimodelkan oleh \\(y= -2\\cos\\left(\\frac{\\pi}{10}x\\right)+6\\) untuk bagian tertentu.",
+        question: "Tinggi terbesar model jembatan tersebut adalah ...",
+        options: ["\\(8\\)", "\\(6\\)", "\\(4\\)", "\\(10\\)", "\\(2\\)"],
+        correct: 0
+      },
+      {
+        topic: "Fungsi Trigonometri",
+        level: 4,
+        stimulus: "Gerak pegas dinyatakan oleh \\(s(t)=5\\sin(4t)\\).",
+        question: "Periode gerak pegas adalah ...",
+        options: ["\\(\\frac{\\pi}{2}\\)", "\\(2\\pi\\)", "\\(4\\pi\\)", "\\(\\frac{\\pi}{4}\\)", "\\(5\\pi\\)"],
+        correct: 0
+      },
+      {
+        topic: "Fungsi Trigonometri",
+        level: 5,
+        stimulus: "Fungsi \\(g(x)=2\\sin x-3\\) digunakan untuk memodelkan simpangan sensor.",
+        question: "Daerah hasil fungsi \\(g\\) adalah ...",
+        options: ["\\([-5,-1]\\)", "\\([-3,2]\\)", "\\([-2,3]\\)", "\\([1,5]\\)", "\\([-1,5]\\)"],
+        correct: 0
+      },
+      {
+        topic: "Fungsi Trigonometri",
+        level: 5,
+        stimulus: "Grafik \\(y=\\sin x\\) digeser ke kanan sejauh \\(\\frac{\\pi}{4}\\) satuan.",
+        question: "Persamaan grafik hasil pergeseran adalah ...",
+        options: ["\\(y=\\sin\\left(x-\\frac{\\pi}{4}\\right)\\)", "\\(y=\\sin\\left(x+\\frac{\\pi}{4}\\right)\\)", "\\(y=\\sin x-\\frac{\\pi}{4}\\)", "\\(y=\\sin x+\\frac{\\pi}{4}\\)", "\\(y=\\cos\\left(x-\\frac{\\pi}{4}\\right)\\)"],
+        correct: 0
+      },
+      {
+        topic: "Fungsi Trigonometri",
+        level: 6,
+        stimulus: "Sebuah sistem pendingin memiliki siklus \\(P(t)=A\\cos(bt)+D\\). Diketahui tekanan maksimum \\(14\\), minimum \\(6\\), dan periode \\(8\\) menit.",
+        question: "Model yang sesuai adalah ...",
+        options: ["\\(P(t)=4\\cos\\left(\\frac{\\pi}{4}t\\right)+10\\)", "\\(P(t)=10\\cos\\left(\\frac{\\pi}{4}t\\right)+4\\)", "\\(P(t)=4\\cos(8t)+10\\)", "\\(P(t)=8\\cos\\left(\\frac{\\pi}{4}t\\right)+6\\)", "\\(P(t)=4\\cos\\left(\\frac{\\pi}{8}t\\right)+10\\)"],
+        correct: 0
+      }
+    ];
+
+    function shuffleQuestionOptions() {
+      questions.forEach((q, index) => {
+        const paired = q.options.map((text, originalIndex) => ({ text, originalIndex }));
+        let seed = index * 17 + 11;
+        paired.sort(() => {
+          seed = (seed * 9301 + 49297) % 233280;
+          return (seed / 233280) - 0.5;
+        });
+        q.shuffledOptions = paired.map(item => item.text);
+        q.correctShuffledIndex = paired.findIndex(item => item.originalIndex === q.correct);
+      });
+    }
+
+    const el = (id) => document.getElementById(id);
+
+    function showPage(pageId) {
+      ["coverPage", "bioPage", "assessmentPage", "resultPage"].forEach(id => {
+        el(id).classList.toggle("hidden", id !== pageId);
+        if (id === "resultPage") {
+          el(id).classList.toggle("flex", id === pageId);
+        }
+      });
+      el("appRoot").scrollTop = 0;
+    }
+
+    function updateDateClock() {
+      const now = new Date();
+      const day = now.toLocaleDateString("id-ID", { weekday: "long" });
+      const date = now.toLocaleDateString("id-ID", { day: "2-digit", month: "long", year: "numeric" });
+      const time = now.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+
+      el("dayText").textContent = day;
+      el("dateText").textContent = date;
+      el("clockText").textContent = time;
+      el("assessmentDate").textContent = `${day}, ${date}`;
+    }
+
+    function formatTimer(seconds) {
+      const m = Math.floor(seconds / 60);
+      const s = seconds % 60;
+      return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    }
+
+    function startTimer() {
+      assessmentStartedAt = new Date();
+      remainingSeconds = 90 * 60;
+      el("timerText").textContent = formatTimer(remainingSeconds);
+      timerInterval = setInterval(() => {
+        remainingSeconds -= 1;
+        el("timerText").textContent = formatTimer(Math.max(remainingSeconds, 0));
+        if (remainingSeconds <= 0) {
+          clearInterval(timerInterval);
+          if (Object.keys(answers).length === questions.length) {
+            openConfirm();
+          } else {
+            showInlineMessage(configValue("incomplete_message"), "error");
+          }
+        }
+      }, 1000);
+    }
+
+    function configValue(key) {
+      if (window.elementSdk && window.elementSdk.config && window.elementSdk.config[key]) {
+        return window.elementSdk.config[key];
+      }
+      return defaultConfig[key];
+    }
+
+    function renderMathInApp() {
+      if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: "\\(", right: "\\)", display: false },
+            { left: "\\[", right: "\\]", display: true }
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    function renderQuestionNav() {
+      const nav = el("questionNav");
+      nav.innerHTML = "";
+      questions.forEach((_, index) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = index + 1;
+        btn.className = "question-nav-btn focus-ring rounded-xl px-2 py-2 text-sm font-black";
+        btn.setAttribute("aria-label", `Buka soal nomor ${index + 1}`);
+        btn.addEventListener("click", () => {
+          currentQuestion = index;
+          renderCurrentQuestion();
+        });
+        nav.appendChild(btn);
+      });
+    }
+
+    function updateQuestionNav() {
+      const buttons = [...el("questionNav").children];
+      buttons.forEach((btn, index) => {
+        const answered = answers[index] !== undefined;
+        const active = index === currentQuestion;
+        btn.className = "question-nav-btn focus-ring rounded-xl px-2 py-2 text-sm font-black " +
+          (active
+            ? "bg-[#FACC15] text-[#102318]"
+            : answered
+              ? "bg-emerald-500 text-white"
+              : "bg-white/10 text-white hover:bg-white/20");
+      });
+      el("answeredCount").textContent = `${Object.keys(answers).length} dari ${questions.length} dijawab`;
+    }
+
+    function renderCurrentQuestion() {
+      const q = questions[currentQuestion];
+      el("questionNumber").textContent = currentQuestion + 1;
+      el("questionTopic").textContent = q.topic;
+      el("questionLevel").textContent = q.level;
+      el("stimulusText").innerHTML = q.stimulus;
+      el("questionText").innerHTML = q.question;
+
+      const optionsList = el("optionsList");
+      optionsList.innerHTML = "";
+
+      q.shuffledOptions.forEach((option, index) => {
+        const label = document.createElement("label");
+        const selected = answers[currentQuestion] === index;
+        label.className = "option-card flex cursor-pointer gap-3 rounded-2xl border-2 p-4 font-bold " +
+          (selected ? "border-[#0B6B3A] bg-emerald-50" : "border-emerald-100 bg-white hover:border-emerald-300");
+        label.innerHTML = `
+          <input class="mt-1 h-5 w-5 accent-[#0B6B3A]" type="radio" name="answerOption" value="${index}" ${selected ? "checked" : ""}>
+          <span class="flex-1"><strong>${String.fromCharCode(65 + index)}.</strong> ${option}</span>
+        `;
+        label.querySelector("input").addEventListener("change", () => {
+          answers[currentQuestion] = index;
+          updateQuestionNav();
+          renderCurrentQuestion();
+        });
+        optionsList.appendChild(label);
+      });
+
+      el("prevBtn").disabled = currentQuestion === 0;
+      el("prevBtn").classList.toggle("opacity-50", currentQuestion === 0);
+      el("nextBtn").textContent = currentQuestion === questions.length - 1 ? "Ke Soal Awal" : "Berikutnya";
+      updateQuestionNav();
+      setTimeout(renderMathInApp, 50);
+    }
+
+    function showInlineMessage(message, type) {
+      const box = el("inlineMessage");
+      box.textContent = message;
+      box.classList.remove("hidden", "bg-red-50", "text-red-700", "bg-emerald-50", "text-emerald-800");
+      if (type === "error") {
+        box.classList.add("bg-red-50", "text-red-700");
+      } else {
+        box.classList.add("bg-emerald-50", "text-emerald-800");
+      }
+      box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function openConfirm() {
+      el("confirmText").textContent = configValue("confirm_message");
+      el("confirmOverlay").classList.remove("hidden");
+      el("confirmOverlay").classList.add("flex");
+    }
+
+    function closeConfirm() {
+      el("confirmOverlay").classList.add("hidden");
+      el("confirmOverlay").classList.remove("flex");
+    }
+
+    function calculateResult() {
+      let correct = 0;
+      questions.forEach((q, index) => {
+        if (answers[index] === q.correctShuffledIndex) correct += 1;
+      });
+      const score = Math.round((correct / questions.length) * 100);
+      let remark = "Sayang That";
+      if (score >= 90) remark = "Meutuwah";
+      else if (score >= 75) remark = "Sangat Jroh";
+      return { correct, score, remark };
+    }
+
+    async function finishAssessment() {
+      if (isSaving) return;
+      isSaving = true;
+      el("confirmSubmitBtn").disabled = true;
+      el("confirmSubmitText").innerHTML = '<span class="inline-flex items-center gap-2"><span class="spinner"></span> Menyimpan</span>';
+
+      clearInterval(timerInterval);
+      const result = calculateResult();
+      const finishedAt = new Date();
+      const durationMinutes = Math.max(1, Math.ceil((finishedAt - assessmentStartedAt) / 60000));
+
+      el("resultName").textContent = studentData.name;
+      el("resultClass").textContent = studentData.className;
+      el("resultScore").textContent = result.score;
+      el("resultRemark").textContent = result.remark;
+
+      closeConfirm();
+      showPage("resultPage");
+
+      const record = {
+        tanggal_asesmen: assessmentStartedAt.toLocaleDateString("id-ID", { day: "2-digit", month: "long", year: "numeric" }),
+        nama: studentData.name,
+        kelas: studentData.className,
+        total_soal: questions.length,
+        total_benar: result.correct,
+        durasi_menit: durationMinutes,
+        nilai: result.score,
+        keterangan: result.remark,
+        submitted_at: finishedAt.toISOString()
+      };
+
+      if (!dataReady || !window.dataSdk) {
+        el("saveStatus").textContent = "Nilai tampil, tetapi rekap belum tersimpan karena koneksi Canva Sheet belum siap.";
+        isSaving = false;
+        return;
+      }
+
+      const saveResult = await window.dataSdk.create(record);
+      if (saveResult.isOk) {
+        el("saveStatus").textContent = "Rekap nilai berhasil disimpan ke Canva Sheet.";
+      } else {
+        el("saveStatus").textContent = "Nilai tampil, tetapi rekap belum berhasil disimpan. Silakan coba muat ulang jika diperlukan.";
+      }
+
+      isSaving = false;
+    }
+
+    function applyConfig(config) {
+      const background = config.background_color || defaultConfig.background_color;
+      const surface = config.surface_color || defaultConfig.surface_color;
+      const text = config.text_color || defaultConfig.text_color;
+      const primary = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondary = config.secondary_action_color || defaultConfig.secondary_action_color;
+      const font = config.font_family || defaultConfig.font_family;
+      const baseSize = Number(config.font_size || defaultConfig.font_size);
+
+      document.body.style.fontFamily = `${font}, Nunito, sans-serif`;
+      document.body.style.fontSize = `${baseSize}px`;
+      el("appRoot").style.backgroundColor = background;
+      el("appRoot").style.color = text;
+
+      el("coverPage").style.backgroundColor = background;
+      el("bioPage").style.backgroundColor = "#EAF7E8";
+      el("assessmentPage").style.backgroundColor = "#F4FBF1";
+      el("resultPage").style.backgroundColor = background;
+
+      document.querySelectorAll(".bg-white").forEach(node => node.style.backgroundColor = surface);
+      document.querySelectorAll(".text-\\[\\#102318\\]").forEach(node => node.style.color = text);
+
+      el("coverTitle").textContent = config.cover_title || defaultConfig.cover_title;
+      el("coverTitle").style.fontFamily = `${font}, Literata, serif`;
+      el("coverTitle").style.fontSize = `${baseSize * 2.35}px`;
+
+      el("startBtn").textContent = config.start_button_text || defaultConfig.start_button_text;
+      el("startBtn").style.backgroundColor = primary;
+      el("startBtn").style.color = text;
+      el("startBtn").style.fontSize = `${baseSize * 1.12}px`;
+
+      el("footerText").textContent = config.footer_text || defaultConfig.footer_text;
+      el("footerText").style.fontSize = `${baseSize}px`;
+
+      el("appTitle").textContent = config.app_title || defaultConfig.app_title;
+      el("appTitle").style.fontFamily = `${font}, Literata, serif`;
+      el("appTitle").style.fontSize = `${baseSize * 2}px`;
+
+      el("biodataNotice").textContent = config.biodata_notice || defaultConfig.biodata_notice;
+      el("continueBtn").textContent = config.continue_button_text || defaultConfig.continue_button_text;
+      el("continueBtn").style.backgroundColor = secondary;
+      el("submitAssessmentBtn").textContent = config.submit_button_text || defaultConfig.submit_button_text;
+      el("submitAssessmentBtn").style.backgroundColor = primary;
+      el("submitAssessmentBtn").style.color = text;
+
+      el("questionTopic").style.fontFamily = `${font}, Literata, serif`;
+      el("resultRemark").style.fontFamily = `${font}, Literata, serif`;
+      el("confirmText").textContent = config.confirm_message || defaultConfig.confirm_message;
+
+      document.querySelectorAll("h2, h3, p, button, label, input, select, li, div").forEach(node => {
+        if (!node.closest(".katex")) {
+          node.style.fontFamily = `${font}, Nunito, sans-serif`;
+        }
+      });
+
+      document.querySelectorAll("h2.math-font, .math-font").forEach(node => {
+        node.style.fontFamily = `${font}, Literata, serif`;
+      });
+
+      document.querySelectorAll("button").forEach(btn => {
+        btn.style.fontSize = `${baseSize * 0.98}px`;
+      });
+
+      document.querySelectorAll("input, select").forEach(field => {
+        field.style.fontSize = `${baseSize * 1.05}px`;
+      });
+
+      renderMathInApp();
+    }
+
+    function initElementSdk() {
+      if (!window.elementSdk) {
+        applyConfig(defaultConfig);
+        return;
+      }
+
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => {
+          applyConfig(config);
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => window.elementSdk.setConfig({ background_color: value })
+            },
+            {
+              get: () => config.surface_color || defaultConfig.surface_color,
+              set: (value) => window.elementSdk.setConfig({ surface_color: value })
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => window.elementSdk.setConfig({ text_color: value })
+            },
+            {
+              get: () => config.primary_action_color || defaultConfig.primary_action_color,
+              set: (value) => window.elementSdk.setConfig({ primary_action_color: value })
+            },
+            {
+              get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+              set: (value) => window.elementSdk.setConfig({ secondary_action_color: value })
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => window.elementSdk.setConfig({ font_family: value })
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => window.elementSdk.setConfig({ font_size: value })
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["cover_title", config.cover_title || defaultConfig.cover_title],
+          ["start_button_text", config.start_button_text || defaultConfig.start_button_text],
+          ["footer_text", config.footer_text || defaultConfig.footer_text],
+          ["app_title", config.app_title || defaultConfig.app_title],
+          ["biodata_notice", config.biodata_notice || defaultConfig.biodata_notice],
+          ["continue_button_text", config.continue_button_text || defaultConfig.continue_button_text],
+          ["submit_button_text", config.submit_button_text || defaultConfig.submit_button_text],
+          ["incomplete_message", config.incomplete_message || defaultConfig.incomplete_message],
+          ["confirm_message", config.confirm_message || defaultConfig.confirm_message]
+        ])
+      });
+    }
+
+    async function initDataSdk() {
+      if (!window.dataSdk) return;
+      const result = await window.dataSdk.init({
+        onDataChanged(data) {
+          dataReady = true;
+        }
+      });
+      dataReady = result.isOk;
+    }
+
+    function initEvents() {
+      el("startBtn").addEventListener("click", () => showPage("bioPage"));
+
+      el("bioForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const name = el("studentName").value.trim();
+        const className = el("studentClass").value;
+
+        if (!name || !className) {
+          el("bioError").textContent = "Nama dan kelas wajib diisi sebelum melanjutkan.";
+          el("bioError").classList.remove("hidden");
+          return;
+        }
+
+        el("bioError").classList.add("hidden");
+        studentData = { name, className };
+        showPage("assessmentPage");
+        startTimer();
+        renderCurrentQuestion();
+      });
+
+      el("prevBtn").addEventListener("click", () => {
+        if (currentQuestion > 0) {
+          currentQuestion -= 1;
+          renderCurrentQuestion();
+        }
+      });
+
+      el("nextBtn").addEventListener("click", () => {
+        currentQuestion = currentQuestion === questions.length - 1 ? 0 : currentQuestion + 1;
+        renderCurrentQuestion();
+      });
+
+      el("submitAssessmentBtn").addEventListener("click", () => {
+        if (Object.keys(answers).length < questions.length) {
+          showInlineMessage(configValue("incomplete_message"), "error");
+          return;
+        }
+        openConfirm();
+      });
+
+      el("cancelSubmitBtn").addEventListener("click", closeConfirm);
+      el("confirmSubmitBtn").addEventListener("click", finishAssessment);
+    }
+
+    shuffleQuestionOptions();
+    renderQuestionNav();
+    initElementSdk();
+    initDataSdk();
+    initEvents();
+    updateDateClock();
+    setInterval(updateDateClock, 1000);
+    window.addEventListener("load", () => setTimeout(renderMathInApp, 300));
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a018a832cf9dcde2',t:'MTc3OTc1NTI3Nw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
